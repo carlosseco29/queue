@@ -3,8 +3,9 @@ cmake_minimum_required(VERSION 3.16.3)
 # Set the project name
 project(QueueImplementation)
 
-# Add the executable
-add_executable(queue main.cpp queue.cpp)
+# Add the include directory
+include_directories(${PROJECT_SOURCE_DIR}/include)
 
-find_package(Threads REQUIRED)
-target_link_libraries(queue Threads::Threads)
+# Add sources and tests
+add_subdirectory(src)
+add_subdirectory(test)

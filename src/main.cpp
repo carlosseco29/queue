@@ -1,6 +1,6 @@
 #include <iostream>
 #include <thread>
-#include "queue.h"
+#include "Queue.h"
 
 
 //TODO decide if I should create interfaces for the classes
@@ -10,7 +10,7 @@ int main() {
     std::cout << "size is " << qs.Size() << std::endl;
     std::cout << "count is " << qs.Count() << std::endl;
 
-    /*
+    
     try {
         qs.PopWithTimeout(1);
     } catch (TimeoutException e) {
@@ -65,9 +65,9 @@ int main() {
         std::cout << "Got exception 10!" << std::endl;
     }
 
-    */
     std::cout << "pushing 1" << std::endl;
     qs.Push(1);
+    std::cout << "after push" << std::endl;
     std::cout<< "Popped: " << qs.Pop() << std::endl;
     std::cout << "pushing 2" << std::endl;
     qs.Push(2);
@@ -84,11 +84,10 @@ int main() {
         std::cout << "Push thread slept. Going to push value" <<std::endl;
         qs.Push(5);
     });
+
     std::cout << "Going to block waiting to pop" << std::endl;
     std::cout<< "Popped: " << qs.Pop() << std::endl;
-    
-    
-
+    std::cout<< "Popped: " << qs.Pop() << std::endl;
 
     PushThread.join();
     return 0;

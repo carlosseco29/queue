@@ -1,0 +1,214 @@
+\hypertarget{classQueue}{}\doxysection{Queue$<$ T $>$ Class Template Reference}
+\label{classQueue}\index{Queue$<$ T $>$@{Queue$<$ T $>$}}
+
+
+A templated class for a queue.  
+
+
+
+
+{\ttfamily \#include $<$Queue.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classQueue_a7f56c75da5459baa34f80d7488bec471}\label{classQueue_a7f56c75da5459baa34f80d7488bec471}} 
+\mbox{\hyperlink{classQueue_a7f56c75da5459baa34f80d7488bec471}{Queue}} ()=delete
+\begin{DoxyCompactList}\small\item\em Default constructor deleted, maximum queue size is mandatory. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classQueue_af73bcc3c170a90883da0fe79848ec971}{Queue}} (int size)
+\begin{DoxyCompactList}\small\item\em A constructor for the \mbox{\hyperlink{classQueue}{Queue}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classQueue_a302dd47cfedbd5d52dc46fcd3a6b4577}{Queue}} (const \mbox{\hyperlink{classQueue}{Queue}} \&other)
+\begin{DoxyCompactList}\small\item\em The copy constructor for the \mbox{\hyperlink{classQueue}{Queue}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classQueue}{Queue}} \& \mbox{\hyperlink{classQueue_a867d799afd9e354b483f9988d0c6f38e}{operator=}} (const \mbox{\hyperlink{classQueue}{Queue}} \&other)
+\begin{DoxyCompactList}\small\item\em The assignment operator for the \mbox{\hyperlink{classQueue}{Queue}} class. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classQueue_aed15d1d40efe83aa9cab1250c2b5fc12}{Push}} (T element)
+\begin{DoxyCompactList}\small\item\em Adds a nem element to the queue. \end{DoxyCompactList}\item 
+T \mbox{\hyperlink{classQueue_a5897608241a6c919354cdc1a1815c0ae}{Pop}} ()
+\begin{DoxyCompactList}\small\item\em Blocks untill an item is available in the queue and returns it. \end{DoxyCompactList}\item 
+T \mbox{\hyperlink{classQueue_accf9b3b7b35ec19cc1bb24fbc71843c8}{Pop\+With\+Timeout}} (int milliseconds)
+\begin{DoxyCompactList}\small\item\em Blocks untill an item is available or for a maximum of. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classQueue_a7b94acd77ce3aa823dd1f916e6356aad}{Count}} ()
+\begin{DoxyCompactList}\small\item\em Gets the number of elements in the queue. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classQueue_a9eb0b82e83c98424c1078be9d380da89}{Size}} ()
+\begin{DoxyCompactList}\small\item\em Gets the maximum size of the queue. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T$>$\newline
+class Queue$<$ T $>$}
+
+A templated class for a queue. 
+
+Container for T values offering push, pop and pop with timeout operations and automatic resize when the maximum size is reached, discarding the oldest items 
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & The type of values that the queue will hold ~\newline
+ \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classQueue_af73bcc3c170a90883da0fe79848ec971}\label{classQueue_af73bcc3c170a90883da0fe79848ec971}} 
+\index{Queue$<$ T $>$@{Queue$<$ T $>$}!Queue@{Queue}}
+\index{Queue@{Queue}!Queue$<$ T $>$@{Queue$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Queue()}{Queue()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+\mbox{\hyperlink{classQueue}{Queue}}$<$ T $>$\+::\mbox{\hyperlink{classQueue}{Queue}} (\begin{DoxyParamCaption}\item[{int}]{size }\end{DoxyParamCaption})}
+
+
+
+A constructor for the \mbox{\hyperlink{classQueue}{Queue}}. 
+
+This constructor initializes a \mbox{\hyperlink{classQueue}{Queue}} with provided maximum size
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & to initialize the first element of the list with \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{classInvalidQueueSizeException}{Invalid\+Queue\+Size\+Exception}}} & if a queue tries to be created with\\
+\hline
+\end{DoxyExceptions}
+
+\begin{DoxyParams}{Parameters}
+{\em size} & $<$ 1 \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classQueue_a302dd47cfedbd5d52dc46fcd3a6b4577}\label{classQueue_a302dd47cfedbd5d52dc46fcd3a6b4577}} 
+\index{Queue$<$ T $>$@{Queue$<$ T $>$}!Queue@{Queue}}
+\index{Queue@{Queue}!Queue$<$ T $>$@{Queue$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Queue()}{Queue()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+\mbox{\hyperlink{classQueue}{Queue}}$<$ T $>$\+::\mbox{\hyperlink{classQueue}{Queue}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classQueue}{Queue}}$<$ T $>$ \&}]{other }\end{DoxyParamCaption})}
+
+
+
+The copy constructor for the \mbox{\hyperlink{classQueue}{Queue}}. 
+
+This constructor creates a new \mbox{\hyperlink{classQueue}{Queue}} as a copy of the given one
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & the \mbox{\hyperlink{classQueue}{Queue}} object to copy from \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classQueue_a7b94acd77ce3aa823dd1f916e6356aad}\label{classQueue_a7b94acd77ce3aa823dd1f916e6356aad}} 
+\index{Queue$<$ T $>$@{Queue$<$ T $>$}!Count@{Count}}
+\index{Count@{Count}!Queue$<$ T $>$@{Queue$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Count()}{Count()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+int \mbox{\hyperlink{classQueue}{Queue}}$<$ T $>$\+::Count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Gets the number of elements in the queue. 
+
+\begin{DoxyReturn}{Returns}
+the number of elements in the queue 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classQueue_a867d799afd9e354b483f9988d0c6f38e}\label{classQueue_a867d799afd9e354b483f9988d0c6f38e}} 
+\index{Queue$<$ T $>$@{Queue$<$ T $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!Queue$<$ T $>$@{Queue$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+\mbox{\hyperlink{classQueue}{Queue}}\& \mbox{\hyperlink{classQueue}{Queue}}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classQueue}{Queue}}$<$ T $>$ \&}]{other }\end{DoxyParamCaption})}
+
+
+
+The assignment operator for the \mbox{\hyperlink{classQueue}{Queue}} class. 
+
+This operator assigns the content of another \mbox{\hyperlink{classQueue}{Queue}} to the current object 
+\begin{DoxyParams}{Parameters}
+{\em other} & the \mbox{\hyperlink{classQueue}{Queue}} object to assign from\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to the element \mbox{\hyperlink{classQueue}{Queue}} object after assignment. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classQueue_a5897608241a6c919354cdc1a1815c0ae}\label{classQueue_a5897608241a6c919354cdc1a1815c0ae}} 
+\index{Queue$<$ T $>$@{Queue$<$ T $>$}!Pop@{Pop}}
+\index{Pop@{Pop}!Queue$<$ T $>$@{Queue$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Pop()}{Pop()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+T \mbox{\hyperlink{classQueue}{Queue}}$<$ T $>$\+::Pop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Blocks untill an item is available in the queue and returns it. 
+
+Will block forever if no new pushes happen
+
+\begin{DoxyReturn}{Returns}
+The value of the element poped from the queue 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classQueue_accf9b3b7b35ec19cc1bb24fbc71843c8}\label{classQueue_accf9b3b7b35ec19cc1bb24fbc71843c8}} 
+\index{Queue$<$ T $>$@{Queue$<$ T $>$}!PopWithTimeout@{PopWithTimeout}}
+\index{PopWithTimeout@{PopWithTimeout}!Queue$<$ T $>$@{Queue$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{PopWithTimeout()}{PopWithTimeout()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+T \mbox{\hyperlink{classQueue}{Queue}}$<$ T $>$\+::Pop\+With\+Timeout (\begin{DoxyParamCaption}\item[{int}]{milliseconds }\end{DoxyParamCaption})}
+
+
+
+Blocks untill an item is available or for a maximum of. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em milliseconds} & ms\\
+\hline
+\end{DoxyParams}
+Waits for a maximum of
+\begin{DoxyParams}{Parameters}
+{\em milliseconds} & in order to return it. If timeout is reached a \mbox{\hyperlink{classTimeoutException}{Timeout\+Exception}} will be thrown\\
+\hline
+{\em milliseconds} & number of ms to wait before timing out \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+the value poped from the list 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{classTimeoutException}{Timeout\+Exception}}} & if timeout is reached and value is available \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classQueue_aed15d1d40efe83aa9cab1250c2b5fc12}\label{classQueue_aed15d1d40efe83aa9cab1250c2b5fc12}} 
+\index{Queue$<$ T $>$@{Queue$<$ T $>$}!Push@{Push}}
+\index{Push@{Push}!Queue$<$ T $>$@{Queue$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Push()}{Push()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+void \mbox{\hyperlink{classQueue}{Queue}}$<$ T $>$\+::Push (\begin{DoxyParamCaption}\item[{T}]{element }\end{DoxyParamCaption})}
+
+
+
+Adds a nem element to the queue. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em element} & to add to the queue \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classQueue_a9eb0b82e83c98424c1078be9d380da89}\label{classQueue_a9eb0b82e83c98424c1078be9d380da89}} 
+\index{Queue$<$ T $>$@{Queue$<$ T $>$}!Size@{Size}}
+\index{Size@{Size}!Queue$<$ T $>$@{Queue$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Size()}{Size()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+int \mbox{\hyperlink{classQueue}{Queue}}$<$ T $>$\+::Size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Gets the maximum size of the queue. 
+
+\begin{DoxyReturn}{Returns}
+the maximum size of the \mbox{\hyperlink{classQueue}{Queue}} 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/Queue.\+h\end{DoxyCompactItemize}

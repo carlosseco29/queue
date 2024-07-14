@@ -1,0 +1,212 @@
+\hypertarget{classListElement}{}\doxysection{List\+Element$<$ T $>$ Class Template Reference}
+\label{classListElement}\index{ListElement$<$ T $>$@{ListElement$<$ T $>$}}
+
+
+A templated class for the elements of a linked list.  
+
+
+
+
+{\ttfamily \#include $<$List\+Element.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classListElement_a53a71344111ee54cd87488d9957f41a3}{List\+Element}} (T value)
+\begin{DoxyCompactList}\small\item\em The constructor for the \mbox{\hyperlink{classListElement}{List\+Element}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classListElement_a2bdd4f435dffcc1f178ea8fd02c91c47}{List\+Element}} (const \mbox{\hyperlink{classListElement}{List\+Element}} \&other)
+\begin{DoxyCompactList}\small\item\em The copy constructor for the \mbox{\hyperlink{classListElement}{List\+Element}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classListElement}{List\+Element}} \& \mbox{\hyperlink{classListElement_a919f1debe9705b3437a14243bde9dfa8}{operator=}} (const \mbox{\hyperlink{classListElement}{List\+Element}} \&other)
+\begin{DoxyCompactList}\small\item\em The assignment operator for the \mbox{\hyperlink{classListElement}{List\+Element}} class. \end{DoxyCompactList}\item 
+const T \mbox{\hyperlink{classListElement_a7db579e700e385cecaf5dde1e951cdbe}{Get\+Value}} ()
+\begin{DoxyCompactList}\small\item\em Gets the value for the current element. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classListElement}{List\+Element}}$<$ T $>$ $\ast$ \mbox{\hyperlink{classListElement_a57a7d4b077b1840c2ecdff98fe3c370c}{Get\+Next}} ()
+\begin{DoxyCompactList}\small\item\em Returns the pointer to the next element in the list. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{classListElement}{List\+Element}}$<$ T $>$ $\ast$ \mbox{\hyperlink{classListElement_abe57a0c4ec151f1469f5acb14f8e80f5}{Get\+Next\+Const}} () const
+\begin{DoxyCompactList}\small\item\em Gets a const pointer to the next element in the list. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classListElement_a5aeed8cadd466563d6088054f2cae3ed}{Set\+Next}} (\mbox{\hyperlink{classListElement}{List\+Element}}$<$ T $>$ $\ast$next)
+\begin{DoxyCompactList}\small\item\em Sets the pointer to the next element in the list. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classListElement_a7905abc1d2e879f39af99f4b5fa32cbf}{Is\+Before\+Begin}} () const
+\begin{DoxyCompactList}\small\item\em Checks if the current object representes the element before the begin of a list. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classListElement_a5ba5187ab818ee6ddda4678110f280c6}\label{classListElement_a5ba5187ab818ee6ddda4678110f280c6}} 
+void \mbox{\hyperlink{classListElement_a5ba5187ab818ee6ddda4678110f280c6}{Set\+Before\+Begin}} ()
+\begin{DoxyCompactList}\small\item\em Sets the current object as one that represents the one before the begin of a list. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class T$>$\newline
+class List\+Element$<$ T $>$}
+
+A templated class for the elements of a linked list. 
+
+Each list element holds its value and a pointer to the next element in the list
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em T} & The type of the value of the list element \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classListElement_a53a71344111ee54cd87488d9957f41a3}\label{classListElement_a53a71344111ee54cd87488d9957f41a3}} 
+\index{ListElement$<$ T $>$@{ListElement$<$ T $>$}!ListElement@{ListElement}}
+\index{ListElement@{ListElement}!ListElement$<$ T $>$@{ListElement$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{ListElement()}{ListElement()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+\mbox{\hyperlink{classListElement}{List\+Element}}$<$ T $>$\+::\mbox{\hyperlink{classListElement}{List\+Element}} (\begin{DoxyParamCaption}\item[{T}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+The constructor for the \mbox{\hyperlink{classListElement}{List\+Element}}. 
+
+This constructor initializes a \mbox{\hyperlink{classListElement}{List\+Element}} with the given value
+
+
+\begin{DoxyParams}{Parameters}
+{\em value} & The value of the \mbox{\hyperlink{classListElement}{List\+Element}} \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classListElement_a2bdd4f435dffcc1f178ea8fd02c91c47}\label{classListElement_a2bdd4f435dffcc1f178ea8fd02c91c47}} 
+\index{ListElement$<$ T $>$@{ListElement$<$ T $>$}!ListElement@{ListElement}}
+\index{ListElement@{ListElement}!ListElement$<$ T $>$@{ListElement$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{ListElement()}{ListElement()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+\mbox{\hyperlink{classListElement}{List\+Element}}$<$ T $>$\+::\mbox{\hyperlink{classListElement}{List\+Element}} (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classListElement}{List\+Element}}$<$ T $>$ \&}]{other }\end{DoxyParamCaption})}
+
+
+
+The copy constructor for the \mbox{\hyperlink{classListElement}{List\+Element}}. 
+
+This constructor creates a new \mbox{\hyperlink{classListElement}{List\+Element}} as a copy of the given one
+
+
+\begin{DoxyParams}{Parameters}
+{\em other} & the \mbox{\hyperlink{classListElement}{List\+Element}} object to copy from\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+This constructor will copy \+\_\+next recursively until it\textquotesingle{}s null (end of list) 
+\end{DoxyNote}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classListElement_a57a7d4b077b1840c2ecdff98fe3c370c}\label{classListElement_a57a7d4b077b1840c2ecdff98fe3c370c}} 
+\index{ListElement$<$ T $>$@{ListElement$<$ T $>$}!GetNext@{GetNext}}
+\index{GetNext@{GetNext}!ListElement$<$ T $>$@{ListElement$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{GetNext()}{GetNext()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+\mbox{\hyperlink{classListElement}{List\+Element}}$<$T$>$$\ast$ \mbox{\hyperlink{classListElement}{List\+Element}}$<$ T $>$\+::Get\+Next (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Returns the pointer to the next element in the list. 
+
+\begin{DoxyReturn}{Returns}
+the pointer to the next element in the list, nullptr if this Element is the last of the list 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{classInvalidBeforeBeginUseException}{Invalid\+Before\+Begin\+Use\+Exception}}} & if this method is called on before begin element \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classListElement_abe57a0c4ec151f1469f5acb14f8e80f5}\label{classListElement_abe57a0c4ec151f1469f5acb14f8e80f5}} 
+\index{ListElement$<$ T $>$@{ListElement$<$ T $>$}!GetNextConst@{GetNextConst}}
+\index{GetNextConst@{GetNextConst}!ListElement$<$ T $>$@{ListElement$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{GetNextConst()}{GetNextConst()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+const \mbox{\hyperlink{classListElement}{List\+Element}}$<$T$>$$\ast$ \mbox{\hyperlink{classListElement}{List\+Element}}$<$ T $>$\+::Get\+Next\+Const (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Gets a const pointer to the next element in the list. 
+
+\begin{DoxyReturn}{Returns}
+a const pointer to the next element in the list, nullptr if this Element is the last of the list 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{classInvalidBeforeBeginUseException}{Invalid\+Before\+Begin\+Use\+Exception}}} & if this method is called on before begin element \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classListElement_a7db579e700e385cecaf5dde1e951cdbe}\label{classListElement_a7db579e700e385cecaf5dde1e951cdbe}} 
+\index{ListElement$<$ T $>$@{ListElement$<$ T $>$}!GetValue@{GetValue}}
+\index{GetValue@{GetValue}!ListElement$<$ T $>$@{ListElement$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{GetValue()}{GetValue()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+const T \mbox{\hyperlink{classListElement}{List\+Element}}$<$ T $>$\+::Get\+Value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Gets the value for the current element. 
+
+\begin{DoxyReturn}{Returns}
+the value for the current element 
+\end{DoxyReturn}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{classInvalidBeforeBeginUseException}{Invalid\+Before\+Begin\+Use\+Exception}}} & if this method is called on before begin element \\
+\hline
+\end{DoxyExceptions}
+\mbox{\Hypertarget{classListElement_a7905abc1d2e879f39af99f4b5fa32cbf}\label{classListElement_a7905abc1d2e879f39af99f4b5fa32cbf}} 
+\index{ListElement$<$ T $>$@{ListElement$<$ T $>$}!IsBeforeBegin@{IsBeforeBegin}}
+\index{IsBeforeBegin@{IsBeforeBegin}!ListElement$<$ T $>$@{ListElement$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{IsBeforeBegin()}{IsBeforeBegin()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+bool \mbox{\hyperlink{classListElement}{List\+Element}}$<$ T $>$\+::Is\+Before\+Begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Checks if the current object representes the element before the begin of a list. 
+
+\begin{DoxyReturn}{Returns}
+true if current object representes the element before the begin of a list, false otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classListElement_a919f1debe9705b3437a14243bde9dfa8}\label{classListElement_a919f1debe9705b3437a14243bde9dfa8}} 
+\index{ListElement$<$ T $>$@{ListElement$<$ T $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!ListElement$<$ T $>$@{ListElement$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+\mbox{\hyperlink{classListElement}{List\+Element}}\& \mbox{\hyperlink{classListElement}{List\+Element}}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classListElement}{List\+Element}}$<$ T $>$ \&}]{other }\end{DoxyParamCaption})}
+
+
+
+The assignment operator for the \mbox{\hyperlink{classListElement}{List\+Element}} class. 
+
+This operator assigns the content of another \mbox{\hyperlink{classListElement}{List\+Element}} to the current oject 
+\begin{DoxyParams}{Parameters}
+{\em other} & the \mbox{\hyperlink{classListElement}{List\+Element}} object to assign from\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A reference to the current \mbox{\hyperlink{classListElement}{List\+Element}} object after assignment.
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+This constructor will copy \+\_\+next recursively until it\textquotesingle{}s null (end of list) 
+\end{DoxyNote}
+\mbox{\Hypertarget{classListElement_a5aeed8cadd466563d6088054f2cae3ed}\label{classListElement_a5aeed8cadd466563d6088054f2cae3ed}} 
+\index{ListElement$<$ T $>$@{ListElement$<$ T $>$}!SetNext@{SetNext}}
+\index{SetNext@{SetNext}!ListElement$<$ T $>$@{ListElement$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{SetNext()}{SetNext()}}
+{\footnotesize\ttfamily template$<$class T $>$ \\
+void \mbox{\hyperlink{classListElement}{List\+Element}}$<$ T $>$\+::Set\+Next (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classListElement}{List\+Element}}$<$ T $>$ $\ast$}]{next }\end{DoxyParamCaption})}
+
+
+
+Sets the pointer to the next element in the list. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em next} & the pointer to set as the next element in the list \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyExceptions}{Exceptions}
+{\em \mbox{\hyperlink{classInvalidBeforeBeginUseException}{Invalid\+Before\+Begin\+Use\+Exception}}} & if this method is called on before begin element \\
+\hline
+\end{DoxyExceptions}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/List\+Element.\+h\end{DoxyCompactItemize}

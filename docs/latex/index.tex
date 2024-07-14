@@ -1,0 +1,47 @@
+Welcome to the documentation for the \mbox{\hyperlink{classQueue}{Queue}} project\hypertarget{index_autotoc_md1}{}\doxysection{Overview}\label{index_autotoc_md1}
+\mbox{\hyperlink{classQueue}{Queue}} is an exercise project This project implements std\+::queue and std\+::forward\+\_\+lists in order to have self-\/implemented queue that avoids using std library for storing elements
+
+The queue supports Pushing, Popping and Popping with a timeout. It auto-\/resizes when maximum set size for the queue is reached.\hypertarget{index_autotoc_md2}{}\doxysection{Getting Started}\label{index_autotoc_md2}
+
+\begin{DoxyEnumerate}
+\item Install dependencies.
+\item Clone the repository.
+\item Run these commands inside the cloned repository 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{mkdir build}
+\DoxyCodeLine{cd build}
+\DoxyCodeLine{cmake ..}
+\DoxyCodeLine{make}
+\end{DoxyCode}
+
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md3}{}\doxysection{Running the executable}\label{index_autotoc_md3}
+
+\begin{DoxyEnumerate}
+\item cd into the build directory created above
+\item Run the executable 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{src/queue}
+\end{DoxyCode}
+
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md4}{}\doxysection{Running the tests}\label{index_autotoc_md4}
+
+\begin{DoxyEnumerate}
+\item cd into the build directory created above
+\item Run the tests 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{test/tests}
+\end{DoxyCode}
+
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md5}{}\doxysection{Creating and opening the documention}\label{index_autotoc_md5}
+
+\begin{DoxyEnumerate}
+\item Run this commands inside the cloned repository 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{doxygen Doxyfile}
+\end{DoxyCode}
+
+\item open docs/html/index.\+html with your favourite browser
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md6}{}\doxysection{Dependencies}\label{index_autotoc_md6}
+gtest (should be automatically fetched and installed by C\+Make)
+
+Doxygen (to generate the documentation) 

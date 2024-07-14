@@ -7,17 +7,17 @@
 #include <thread>
 
 #include "Exceptions.h"
-#include "QueueElement.h"
+#include "ListElement.h"
+#include "LinkedList.h"
 
-//TODO
-//Queue passa a implementar o getBlocking
-//Class LinkedList passa a tratar dos pushs e pops
 template <class T>
 class Queue {
 public:
+    Queue() = delete;
     Queue(int size);
-    //Queue(const Queue&) = delete; //TODO implement safe copy constructor
-    //Queue& operator=(const Queue&) = delete; //TODO implemente safe copy assignment operator
+    Queue(const Queue& other) = delete;
+    Queue(Queue& other);
+    Queue& operator=(Queue&) = default;
     void Push(T element);
     T Pop();
     T PopWithTimeout(int milliseconds);
@@ -25,14 +25,14 @@ public:
     int Size();
 
 private:
+    LinkedList<int> linkedList;
     T _GetElementBlocking(int timeoutMilliseconds = 0);
-    T _Pop();
-    QueueElement<T>* _firstElement = nullptr;
-    QueueElement<T>* _lastElement = nullptr;
-    std::mutex _mutex;
+    T _Pop();    
+    mutable std::recursive_mutex _mutex;
     const int _size;
     int _count = 0;
-    const int _millisecondsDefaultPollingPeriod = 100;   
+    const int _millisecondsDefaultPollingPeriod = 100;
+    ListElement<T>* _lastElement = nullptr;
 };
 
 template <class T>
@@ -40,20 +40,36 @@ Queue<T>::Queue(int size) : _size(size){
     if (_size <= 0) {
         throw InvalidQueueSizeException("Queue can't have a size lower than or equal to 0.");
     }
+}
+template <class T>
+Queue<T>::Queue(Queue & other) : _size(other.Size()) {
+    std::lock_guard<std::recursive_mutex> otherLockGuard(other._mutex);
+    std::lock_guard<std::recursive_mutex> lockGuard(_mutex);
+    this->_count = other._count;
+    this->linkedList = other.linkedList;
+    if (other.linkedList.Empty()){
+        return;
+    }
+    
+    this->_lastElement = linkedList.Front();
+    while(this->_lastElement->GetNext() != nullptr) {
+        this->_lastElement = this->_lastElement->GetNext();
+    }
 };
 
 template <class T>
 void Queue<T>::Push(T element){
-    std::lock_guard<std::mutex> lockGuard(_mutex);
-    if (_firstElement == nullptr){
-        _firstElement = new QueueElement<T>(element);
-        _lastElement = _firstElement;
-    } else {
-        _lastElement->nextElement = new QueueElement<T>(element);
-        _lastElement = _lastElement->nextElement;
-    }
-    _count++;
+    std::lock_guard<std::recursive_mutex> lockGuard(_mutex);
+    if (linkedList.Empty()){
+        linkedList.InsertAfter(linkedList.GetBeforeBegin(), element);
+        _lastElement = linkedList.Front();
 
+    } else {
+        linkedList.InsertAfter(_lastElement, element);
+        _lastElement = _lastElement->GetNext();
+    }
+
+    _count++;
     if (_count > _size) {
         _Pop();
     }
@@ -71,30 +87,25 @@ T Queue<T>::PopWithTimeout(int timeoutMilliseconds){
 
 template <class T>
 T Queue<T>::_Pop(){
-    //TODO Document that this function is not thread safe and 
-    //that synchronization must be ensured before calling it.
-    //It also should not be called on an empty queue!
-    T element = _firstElement->element;
-    QueueElement<T>* newFirstElement = _firstElement->nextElement;
-    delete _firstElement;
-    _firstElement = newFirstElement;
-    
+    std::lock_guard<std::recursive_mutex> lockGuard(_mutex);
     _count--;
-    return element;
+    return linkedList.PopFront();
 }
 
 template <class T>
 T Queue<T>::_GetElementBlocking(int timeoutMilliseconds){
+    
     int millisecondsToWait = _millisecondsDefaultPollingPeriod;
     int waitedMilliseconds = 0;
     int millisecondsToTimeout = timeoutMilliseconds;
 
     while(true) {
-        std::unique_lock<std::mutex> uniqueLock(_mutex);
+
+        {std::lock_guard<std::recursive_mutex> lockGuard(_mutex);
+
         if (_count > 0) {
             return _Pop();
         } else {
-            uniqueLock.unlock();
             std::cout<< "Pop thread blocked waiting for value..." << std::endl;
             if(timeoutMilliseconds > 0) {
                 if (millisecondsToTimeout == 0) {
@@ -109,19 +120,21 @@ T Queue<T>::_GetElementBlocking(int timeoutMilliseconds){
                 millisecondsToTimeout -= millisecondsToWait;
                 waitedMilliseconds += millisecondsToWait;
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(millisecondsToWait));
         }
+        };
+        std::this_thread::sleep_for(std::chrono::milliseconds(millisecondsToWait));
+
     }
 }
 
 template <class T>
-int Queue<T>::Count(){
-    std::lock_guard<std::mutex> lockGuard(_mutex);
+int Queue<T>::Count() {
+    std::lock_guard<std::recursive_mutex> lockGuard(_mutex);
     return _count;
 }
 
 template <class T>
-int Queue<T>::Size(){
+int Queue<T>::Size() {
     return _size;
 }
 
