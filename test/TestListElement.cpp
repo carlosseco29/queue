@@ -2,18 +2,27 @@
 
 #include "ListElement.h"
 
-TEST(QueueElementTest, IsBeforeBegin) {
+/// @brief Tests the IsBeforeBegin when true
+TEST(QueueElementTest, IsBeforeBeginTrue) {
     ListElement<int> element(0);
     element.SetNext(&element);
     EXPECT_TRUE(element.IsBeforeBegin());
 }
 
+/// @brief Tests the IsBeforeBegin when false
+TEST(QueueElementTest, IsBeforeBegin) {
+    ListElement<int> element(0);
+    EXPECT_FALSE(element.IsBeforeBegin());
+}
+
+/// @brief Tests the SetBeforeBegin
 TEST(QueueElementTest, SetBeforeBegin) {
     ListElement<int> element(0);
     element.SetBeforeBegin();
     EXPECT_TRUE(element.IsBeforeBegin());
 }
 
+/// @brief Tests the copy constructor 
 TEST(QueueElementTest, Copy) {
     ListElement<int> element(0);
     ListElement<int> element2(1);
@@ -25,6 +34,7 @@ TEST(QueueElementTest, Copy) {
     EXPECT_EQ(element.GetNext()->GetValue(), elementCopy.GetNext()->GetValue());
 }
 
+/// @brief Tests the copy constructor when next is null
 TEST(QueueElementTest, CopyNullNext) {
     ListElement<int> element(0);
     ListElement<int> elementCopy(element);
@@ -32,6 +42,7 @@ TEST(QueueElementTest, CopyNullNext) {
     EXPECT_EQ(elementCopy.GetNext(), nullptr);
 }
 
+/// @brief Tests the copy constructor when copying a before begin
 TEST(QueueElementTest, CopyBeforeBegin) {
     ListElement<int> element(0);
     element.SetBeforeBegin();

@@ -1,82 +1,88 @@
-#ifndef QUEUE_ELEMENT_H
-#define QUEUE_ELEMENT_H
+#ifndef LIST_ELEMENT_H
+#define LIST_ELEMENT_H
 
 #include "Exceptions.h"
 
+/// @brief A templated class for the elements of a linked list
+///
+/// Each list element holds its value and a pointer to the next element in the list
+///
+/// @tparam T The type of the value of the list element
 template <class T>
 class ListElement {
 public:
-    ListElement(T value) : value(value){};
+    /// @brief The constructor for the ListElement
+    ///
+    /// This constructor initializes a ListElement with the given value
+    ///
+    /// @param value The value of the ListElement
+    ListElement(T value) : _value(value){};
+
+    /// @brief The copy constructor for the ListElement
+    ///
+    /// This constructor creates a new ListElement as a copy of the given one
+    /// 
+    /// @param other the ListElement object to copy from
+    ///
+    /// @note This constructor will copy _next recursively until it's null (end of list)
     ListElement(const ListElement& other);
-    ListElement& operator=(ListElement & other);
-    bool IsBeforeBegin() const;
-    void SetBeforeBegin();
-    ListElement<T>* GetNext();
-    void SetNext(ListElement<T>* next);
+
+    /// @brief The assignment operator for the ListElement class
+    ///
+    /// This operator assigns the content of another ListElement to the current oject
+    /// @param other the ListElement object to assign from
+    ///
+    /// @return A reference to the current ListElement object after assignment.
+    ///
+    /// @note This constructor will copy _next recursively until it's null (end of list)
+    ListElement& operator=(const ListElement & other);
+    
+    /// @brief Gets the value for the current element
+    ///
+    /// @return the value for the current element
+    /// @throws InvalidBeforeBeginUseException if this method is called on before begin element
     const T GetValue();
+    
+    /// @brief Returns the pointer to the next element in the list
+    ///
+    /// @return the pointer to the next element in the list, nullptr if this Element is the last of the list
+    /// @throws InvalidBeforeBeginUseException if this method is called on before begin element
+    ListElement<T>* GetNext();
+
+    /// @brief Gets a const pointer to the next element in the list
+    /// @return a const pointer to the next element in the list, nullptr if this Element is the last of the list
+    /// @throws InvalidBeforeBeginUseException if this method is called on before begin element
     const ListElement<T>* GetNextConst() const;
+    
+    /// @brief Sets the pointer to the next element in the list
+    ///
+    /// @param next the pointer to set as the next element in the list
+    /// @throws InvalidBeforeBeginUseException if this method is called on before begin element
+    void SetNext(ListElement<T>* next);
+    
+    /// @brief Checks if the current object representes the element before the begin of a list
+    /// 
+    /// @return true if current object representes the element before the begin of a list, false otherwise
+    bool IsBeforeBegin() const;
+    
+    /// @brief Sets the current object as one that represents the one before the begin of a list
+    void SetBeforeBegin();
 
 private:
-    const T value;
-    ListElement<T>* next = nullptr;
+    /// @brief The value for the ListElement
+    const T _value;
+
+    /// @brief the pointer to the next element in the list
+    ListElement<T>* _next = nullptr;
+
+    /// @brief A method which copies the values in other to the current object
+    ///
+    /// @param other the ListElement object to copy from
+    ///
+    /// @note This method will copy _next recursively until it's nullptr (end of list)
+    void _Copy(const ListElement<T> &other);
 };
 
-template <class T>
-ListElement<T>::ListElement(const ListElement &other)  : value(other.value) {
-    if (other.IsBeforeBegin()) {
-        this->SetBeforeBegin();
-    } else if (other.GetNextConst() == nullptr) {
-        this->next = nullptr;
-    } else {
-        this->next = new ListElement(*(other.GetNextConst()));
-    }
-    
-}
+#include "../src/ListElement.tpp"
 
-template <class T>
-ListElement<T> &ListElement<T>::operator=(ListElement<T> &other) {
-    return ListElement(other);
-}
-
-template <class T>
-bool ListElement<T>::IsBeforeBegin() const {
-    return (this->next == this);
-}
-
-template <class T>
-void ListElement<T>::SetBeforeBegin() {
-    this->next = this;
-}
-
-template <class T>
-ListElement<T>* ListElement<T>::GetNext() {
-    if(this->IsBeforeBegin()) {
-        throw InvalidBeforeBeginUseException("Calling GetNext on a BeforeBegin is unsupported");
-    }
-    return this->next;
-}
-
-template <class T>
-const ListElement<T>* ListElement<T>::GetNextConst() const {
-    if(this->IsBeforeBegin()) {
-        throw InvalidBeforeBeginUseException("Calling GetNextConst on a BeforeBegin is unsupported");
-    }
-    return this->next;
-}
-
-template <class T>
-void ListElement<T>::SetNext(ListElement<T> *next) {
-    if(this->IsBeforeBegin()) {
-        throw InvalidBeforeBeginUseException("Calling SetNext on a BeforeBegin is unsupported");
-    }
-    this->next = next;
-}
-
-template <class T>
-const T ListElement<T>::GetValue() {
-    if(this->IsBeforeBegin()) {
-        throw InvalidBeforeBeginUseException("Calling GetValue on a BeforeBegin is unsupported");
-    }
-    return value;
-}
-#endif //QUEUE_ELEMENT_H
+#endif //LIST_ELEMENT_H

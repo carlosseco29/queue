@@ -3,7 +3,6 @@
 #include "Queue.h"
 
 
-//TODO decide if I should create interfaces for the classes
 int main() {
     Queue<int> qs(2);
 

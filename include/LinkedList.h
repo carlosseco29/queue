@@ -10,127 +10,113 @@
 #include "Exceptions.h"
 #include "ListElement.h"
 
+/// @brief A templated class for a linked list
+///
+/// This class tries to mimic the std::forward_list's interface as much as possible
+///
+/// @tparam T The type of values that the linked list will hold
+///
+/// @note Only the methods needed for the operation of Queue.h have been implemented.
 template <class T>
 class LinkedList {
 public:
-    LinkedList();
-    LinkedList(const T element);
-    //LinkedList(LinkedList& other);
-    LinkedList(const LinkedList& other);
-    //LinkedList& operator=(const LinkedList& other);
-    LinkedList& operator=(LinkedList& other);
+    /// @brief The default constructor for the LinkedList
+    ///
+    /// This constructor initializes an empty LinkedList
+    LinkedList() = default;
+    
+    /// @brief A constructor for the LinkedList
+    ///
+    /// This constructor initializes a list with the provided value
+    ///
+    /// @param value to initialize the first element of the list with
+    LinkedList(const T value);
 
+    /// @brief The copy constructor for the LinkedList
+    ///
+    /// This constructor creates a new LinkedList as a copy of the given one
+    /// 
+    /// @param other the LinkedList object to copy from
+    LinkedList(const LinkedList& other);
+
+    /// @brief The assignment operator for the LinkedList class
+    ///
+    /// This operator assigns the content of another LinkedList to the current object
+    //
+    /// @param other the LinkedList object to assign from
+    ///
+    /// @return A reference to the element LinkedList object after assignment.
+    LinkedList& operator=(const LinkedList& other);
+
+    /// @brief The destructor for the LinkedList
     ~LinkedList();
-    void InsertAfter(ListElement<T>* queueElement, T element);
+    
+    /// @brief Inserts a new element in the queue after the provided one
+    ///
+    /// @param queueElement the queueElement to insert the value after
+    /// @param value the value to insert after the queue element
+    void InsertAfter(ListElement<T>* queueElement, T value);
+    
+    /// @brief Removes an item from the beginning of the list and returns its value
+    ///
+    /// @return the value of the item removed from the list
+    /// @throws InvalidPopUseException if Pop is called on an empty list
     T PopFront();
-    bool Empty();
+    
+    /// @brief A method which validates if the list is empty
+    ///
+    /// @return true if the list is empty, false otherwise
+    bool Empty() const;
+    
+    /// @brief A method which returns the element representing the before the begin of the list
+    ///
+    /// This is represented by having the next pointer equal to the this pointer
+    ///
+    /// @return a pointer to a ListElement representing the element before the begin of the list
     ListElement<T>* GetBeforeBegin();
-    ListElement<T>* Front();
+    
+    /// @brief A method which returns the first element of the list
+    ///
+    /// @return a pointer to the first element of the list
+    ListElement<T>* Begin();
+
+    /// @brief A method which returns the first element of the list as const
+    ///
+    /// @return a const pointer to the first element of the list
+    const ListElement<T>* BeginConst() const;
 
 private:
+    /// @brief The first element of the list
     ListElement<T>* _firstElement = nullptr;
-    ListElement<T>* _beforeBegin = nullptr;
+    
+    /// @brief The before begin of the list
+    static ListElement<T>* _beforeBegin; 
+    
+    /// @brief A mutex to protect list operations
     mutable std::recursive_mutex _mutex;
-    void _DeleteAllElements(ListElement<T>* current = nullptr);
+    
+    /// @brief A function which deletes all elements
+    ///
+    /// Deletes the element given to it and all its nexts
+    /// use nullptr as a parameter to start from _firstElement
+    ///
+    /// @param element nullptr to start from _firstElement, element to start from otherwise
+    void _DeleteAllElements(ListElement<T>* element = nullptr);
+    
+    /// @brief Creates a dinamically allocated BeforeBegin element
+    ///
+    /// @return a dinamically allocated BeforeBegin element, set to be freed on program exit
+    static ListElement<T>* _CreateBeforeBegin();
+
+    /// @brief Deletes the dinamically allocated BeforeBegin element
+    static void _DeleteBeforeBegin();
+
+    /// @brief A method which copies the values in other to the current object
+    ///
+    /// @param other the LinkedList object to copy from
+    void _Copy(const LinkedList<T> &other);
 };
 
-template <class T>
-LinkedList<T>::LinkedList() {
-    _beforeBegin = new ListElement<T>(T());
-    _beforeBegin->SetBeforeBegin();
-}
-
-template <class T>
-LinkedList<T>::~LinkedList() {
-    delete _beforeBegin;
-    _DeleteAllElements();
-}
-
-template <class T>
-LinkedList<T>::LinkedList(const T element) : LinkedList() {
-    InsertAfter(_beforeBegin, element);
-}
-
-template <class T>
-LinkedList<T>::LinkedList(const LinkedList &other) : LinkedList()  {
-    std::lock_guard<std::recursive_mutex> otherLockGuard(other._mutex);
-    std::lock_guard<std::recursive_mutex> lockGuard(other._mutex);
-    if (other._firstElement != nullptr) {
-        this->_firstElement = new ListElement<T>(*(other._firstElement));
-    }
-}
-
-template <class T>
-LinkedList<T> &LinkedList<T>::operator=(LinkedList &other) {
-    if (this != &other) {
-        this->_DeleteAllElements();
-        if(! other.Empty()){
-            this->_firstElement = new ListElement<T>(*(other.Front()));
-        }
-    }
-    return *this;
-};
-
-template <class T>
-void LinkedList<T>::InsertAfter(ListElement<T>* insertAfterElement, T element){
-    std::lock_guard<std::recursive_mutex> lockGuard(_mutex);
-    ListElement<T>* newElement = new ListElement<T>(element);
-    if (insertAfterElement->IsBeforeBegin()){
-        if (_firstElement != nullptr){
-            newElement->SetNext(_firstElement);
-        }
-        _firstElement = newElement;
-    } else {
-        ListElement<T>* oldNextElement = insertAfterElement->GetNext();
-        insertAfterElement->SetNext(newElement);
-        newElement->SetNext(oldNextElement);
-    }
-}
-
-//TODO document that calling on empty list causes undefined behaviour
-template <class T>
-T LinkedList<T>::PopFront() {
-    std::lock_guard<std::recursive_mutex> lockGuard(_mutex);
-    if(_firstElement == nullptr) {
-        throw InvalidPopUseException("Pop doesn't support being called on an empty list.");
-    }
-    T element = _firstElement->GetValue();
-    ListElement<T>* newFirstElement = _firstElement->GetNext();
-
-    delete _firstElement;
-    _firstElement = newFirstElement;
-    return element;
-}
-
-template <class T>
-bool LinkedList<T>::Empty() {
-    return _firstElement == nullptr;
-}
-
-template <class T>
-ListElement<T>* LinkedList<T>::GetBeforeBegin() {
-    return _beforeBegin;
-}
-
-template <class T>
-ListElement<T> *LinkedList<T>::Front() {
-    return _firstElement;
-}
-
-template <class T>
-void LinkedList<T>::_DeleteAllElements(ListElement<T> *current) {
-    if(current == nullptr) {
-        if (_firstElement == nullptr) {
-            return;
-        } else {
-            current = _firstElement;
-            _firstElement = nullptr;
-        }
-    }
-    if(current->GetNext() != nullptr) {
-        _DeleteAllElements(current->GetNext());
-    }
-    delete current;
-}
+#include "LinkedList.tpp"
 
 #endif //LINKED_LIST_H

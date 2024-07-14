@@ -1,0 +1,9 @@
+# Doxyfile configuration file
+
+# Project configs
+PROJECT_NAME      = "Queue"
+PROJECT_BRIEF     = "A program which implements a queue with maximum size and auto resize when max size is reached"
+USE_MDFILE_AS_MAINPAGE = README.md
+
+OUTPUT_DIRECTORY  = docs
+INPUT             = include src README.md

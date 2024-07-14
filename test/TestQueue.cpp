@@ -17,24 +17,32 @@ bool isBlocking(Func func, Queue<int> &queue, std::chrono::milliseconds timeout)
     }
 }
 
+/// @brief Tests the copy constructor 
 TEST(QueueTest, Copy) {
     Queue<int> queue(5);
 
     queue.Push(0);
-    Queue<int> queueCopy(queue);
+    Queue<int> queueCopy = queue;
     EXPECT_EQ(queue.Size(), queueCopy.Size());
     queueCopy.Push(1);
     queueCopy.Push(2);
+    queueCopy.Push(3);
+    EXPECT_EQ(queueCopy.Pop(), 0);
+    EXPECT_EQ(queue.Count(), 1);
     queue.Push(3);
     EXPECT_EQ(queue.Count(), 2);
     EXPECT_EQ(queueCopy.Count(), 3);
     EXPECT_EQ(queue.Pop(), 0);
     EXPECT_EQ(queue.Pop(), 3);
-    EXPECT_EQ(queueCopy.Pop(), 0);
+    EXPECT_EQ(queue.Count(), 0);
+
+    EXPECT_EQ(queueCopy.Count(), 3);
     EXPECT_EQ(queueCopy.Pop(), 1);
     EXPECT_EQ(queueCopy.Pop(), 2);
+    EXPECT_EQ(queueCopy.Pop(), 3);
 }
 
+/// @brief Tests the copy constructor on an empty queue
 TEST(QueueTest, CopyEmpty) {
     Queue<int> queue(2);    
     Queue<int> queueCopy(queue);
@@ -49,6 +57,16 @@ TEST(QueueTest, CopyEmpty) {
     EXPECT_EQ(queueCopy.Pop(), 1);
 }
 
+/// @brief Tests the push method on an empty queue
+TEST(QueueTest, PushEmtpy) {
+    Queue<int> queue(2);    
+    queue.Push(0);
+    EXPECT_EQ(queue.Count(), 1);
+    queue.Push(1);
+    EXPECT_EQ(queue.Count(), 2);
+}
+
+/// @brief Tests the push method on queue with values
 TEST(QueueTest, Push) {
     Queue<int> queue(2);    
     queue.Push(0);
@@ -57,6 +75,7 @@ TEST(QueueTest, Push) {
     EXPECT_EQ(queue.Count(), 2);
 }
 
+/// @brief Tests the resize mechanism when max size is reached
 TEST(QueueTest, PushToOverflow) {
     Queue<int> queue(2);    
     queue.Push(0);
@@ -70,6 +89,14 @@ TEST(QueueTest, PushToOverflow) {
     EXPECT_EQ(queue.Pop(), 5);
 }
 
+/// @brief Tests the Pop method on an empty queue
+TEST(QueueTest, PopEmpty) {
+    Queue<int> queue(2);
+    auto timeout = std::chrono::milliseconds(500);
+    EXPECT_EQ(true, isBlocking(std::bind(&Queue<int>::Pop,  &queue), queue, timeout));
+}
+
+/// @brief Tests the Pop method
 TEST(QueueTest, Pop) {
     Queue<int> queue(2);
     queue.Push(0);
@@ -77,19 +104,16 @@ TEST(QueueTest, Pop) {
     EXPECT_EQ(queue.Count(), 0);
 }
 
-TEST(QueueTest, PopEmpty) {
-    Queue<int> queue(2);
-    auto timeout = std::chrono::milliseconds(500);
-    EXPECT_EQ(true, isBlocking(std::bind(&Queue<int>::Pop,  &queue), queue, timeout));
-}
 
+
+/// @brief Tests the PopWithTimeout method on a queue with elements
 TEST(QueueTest, PopWithTimeout) {
     Queue<int> queue(2);
     queue.Push(0);
     EXPECT_NO_THROW(queue.PopWithTimeout(1));
     EXPECT_EQ(queue.Count(), 0);
 }
-
+/// @brief Tests the PopWithTimeout method on an empty queue
 TEST(QueueTest, PopWithTimeoutEmpty) {
     Queue<int> queue(2);
     EXPECT_THROW(queue.PopWithTimeout(1), TimeoutException);
@@ -101,7 +125,8 @@ TEST(QueueTest, PopWithTimeoutEmpty) {
     EXPECT_THROW(queue.PopWithTimeout(201), TimeoutException);
 }
 
-TEST(QueueTest, BoschTest) {
+/// @brief performs the exercise's test
+TEST(QueueTest, ExerciseTest) {
     Queue<int> queue(2);
     queue.Push(1);
     EXPECT_EQ(queue.Pop(), 1);

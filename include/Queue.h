@@ -10,132 +10,114 @@
 #include "ListElement.h"
 #include "LinkedList.h"
 
+/// @brief A templated class for a queue
+///
+/// Container for T values offering push, pop and pop with timeout operations and automatic
+/// resize when the maximum size is reached, discarding the oldest items
+/// @tparam T The type of values that the queue will hold 
 template <class T>
 class Queue {
 public:
+    /// @brief Default constructor deleted, maximum queue size is mandatory
     Queue() = delete;
+
+    /// @brief A constructor for the Queue
+    ///
+    /// This constructor initializes a Queue with provided maximum size
+    ///
+    /// @param value to initialize the first element of the list with
+    /// @throws InvalidQueueSizeException if a queue tries to be created with \param size < 1
     Queue(int size);
-    Queue(const Queue& other) = delete;
-    Queue(Queue& other);
-    Queue& operator=(Queue&) = default;
+
+    /// @brief The copy constructor for the Queue
+    ///
+    /// This constructor creates a new Queue as a copy of the given one
+    /// 
+    /// @param other the Queue object to copy from
+    Queue(const Queue& other);
+    
+    /// @brief The assignment operator for the Queue class
+    ///
+    /// This operator assigns the content of another Queue to the current object
+    //
+    /// @param other the Queue object to assign from
+    ///
+    /// @return A reference to the element Queue object after assignment.
+    Queue& operator=(const Queue& other);
+
+    /// @brief Adds a nem element to the queue
+    ///
+    /// @param element to add to the queue
     void Push(T element);
+    
+    /// @brief Blocks untill an item is available in the queue and returns it
+    ///
+    /// Will block forever if no new pushes happen
+    ///
+    /// @return The value of the element poped from the queue
     T Pop();
+    
+    /// @brief Blocks untill an item is available or for a maximum of \param milliseconds ms
+    ///
+    /// Waits for a maximum of \param milliseconds in order to return it. If timeout is reached 
+    /// a TimeoutException will be thrown
+    ///
+    /// @param milliseconds number of ms to wait before timing out
+    /// @return the value poped from the list
+    /// @throws TimeoutException if timeout is reached and value is available
     T PopWithTimeout(int milliseconds);
+
+    /// @brief Gets the number of elements in the queue
+    /// @return the number of elements in the queue
     int Count();
+
+    /// @brief Gets the maximum size of the queue
+    /// @return the maximum size of the Queue
     int Size();
 
 private:
+    /// @brief The linked list where the queue elements are stored
     LinkedList<int> linkedList;
+    
+    /// @brief Block for a maximum of \param timeoutMillisenconds or untill an element is available
+    ///
+    /// If no pushes ever happen, it will block forever
+    ///
+    /// @param timeoutMilliseconds the ms to timeout after
+    /// @return the element, if it is available
+    /// @throws TimeoutException if timeout is reached and no value is available
     T _GetElementBlocking(int timeoutMilliseconds = 0);
+    
+    /// @brief Calls PopFront on the linked list
+    ///
+    /// Causes InvalidPopUseException if called on an empty list. To be used carefully.
+    ///
+    /// @return The poped value
+    /// @throws InvalidPopUseException if Pop is called on an empty list
     T _Pop();    
+    
+    /// @brief A mutex to protect list operations
     mutable std::recursive_mutex _mutex;
-    const int _size;
+
+    /// @brief the maximum size of the queue
+    int _size;
+
+    /// @brief The number of elements in the queue
     int _count = 0;
+
+    /// @brief The default number of ms to poll when blocked, waiting to pop
     const int _millisecondsDefaultPollingPeriod = 100;
+    
+    /// @brief the last element of the list
     ListElement<T>* _lastElement = nullptr;
+
+    /// @brief A method which copies the values in other to the current object
+    ///
+    /// @param other the LinkedList object to copy from
+    void _Copy(const Queue<T> &other);
+
 };
 
-template <class T>
-Queue<T>::Queue(int size) : _size(size){
-    if (_size <= 0) {
-        throw InvalidQueueSizeException("Queue can't have a size lower than or equal to 0.");
-    }
-}
-template <class T>
-Queue<T>::Queue(Queue & other) : _size(other.Size()) {
-    std::lock_guard<std::recursive_mutex> otherLockGuard(other._mutex);
-    std::lock_guard<std::recursive_mutex> lockGuard(_mutex);
-    this->_count = other._count;
-    this->linkedList = other.linkedList;
-    if (other.linkedList.Empty()){
-        return;
-    }
-    
-    this->_lastElement = linkedList.Front();
-    while(this->_lastElement->GetNext() != nullptr) {
-        this->_lastElement = this->_lastElement->GetNext();
-    }
-};
-
-template <class T>
-void Queue<T>::Push(T element){
-    std::lock_guard<std::recursive_mutex> lockGuard(_mutex);
-    if (linkedList.Empty()){
-        linkedList.InsertAfter(linkedList.GetBeforeBegin(), element);
-        _lastElement = linkedList.Front();
-
-    } else {
-        linkedList.InsertAfter(_lastElement, element);
-        _lastElement = _lastElement->GetNext();
-    }
-
-    _count++;
-    if (_count > _size) {
-        _Pop();
-    }
-}
-
-template <class T>
-T Queue<T>::Pop(){
-    return _GetElementBlocking();
-}
-
-template <class T>
-T Queue<T>::PopWithTimeout(int timeoutMilliseconds){
-    return _GetElementBlocking(timeoutMilliseconds);
-}
-
-template <class T>
-T Queue<T>::_Pop(){
-    std::lock_guard<std::recursive_mutex> lockGuard(_mutex);
-    _count--;
-    return linkedList.PopFront();
-}
-
-template <class T>
-T Queue<T>::_GetElementBlocking(int timeoutMilliseconds){
-    
-    int millisecondsToWait = _millisecondsDefaultPollingPeriod;
-    int waitedMilliseconds = 0;
-    int millisecondsToTimeout = timeoutMilliseconds;
-
-    while(true) {
-
-        {std::lock_guard<std::recursive_mutex> lockGuard(_mutex);
-
-        if (_count > 0) {
-            return _Pop();
-        } else {
-            std::cout<< "Pop thread blocked waiting for value..." << std::endl;
-            if(timeoutMilliseconds > 0) {
-                if (millisecondsToTimeout == 0) {
-                    std::cout<<"Timeout " << timeoutMilliseconds << " reached. Waited "
-                        << waitedMilliseconds << "ms" << std::endl;
-                    throw TimeoutException("Timeout reached while waiting for new elements.");
-                }
-                
-                if (millisecondsToTimeout < millisecondsToWait) {
-                    millisecondsToWait = millisecondsToTimeout;
-                }
-                millisecondsToTimeout -= millisecondsToWait;
-                waitedMilliseconds += millisecondsToWait;
-            }
-        }
-        };
-        std::this_thread::sleep_for(std::chrono::milliseconds(millisecondsToWait));
-
-    }
-}
-
-template <class T>
-int Queue<T>::Count() {
-    std::lock_guard<std::recursive_mutex> lockGuard(_mutex);
-    return _count;
-}
-
-template <class T>
-int Queue<T>::Size() {
-    return _size;
-}
+#include "../src/Queue.tpp"
 
 #endif //QUEUE_H
